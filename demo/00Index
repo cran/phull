@@ -1,0 +1,3 @@
+normal    "Two normal deviates"
+normal2   "Two normal deviates combined with other two normal deviates"
+expnormal "Exponential and normal deviates"
