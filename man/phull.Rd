@@ -11,7 +11,7 @@
 \arguments{
   \item{x,y}{coordinate vectors of points to join.}
   \item{p}{\eqn{0\le p\le\infty}.}
-	\item{p_correction}{logical; if \code{TRUE} then \eqn{p>100} or \eqn{<0.1} is changed to \code{Ind} or \code{0}, respectively.}
+	\item{p_correction}{logical; if \code{TRUE} then \eqn{p>100} or \eqn{<0.1} is changed to \code{Inf} or \code{0}, respectively.}
 }
 
 \details{

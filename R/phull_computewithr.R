@@ -1,9 +1,13 @@
 # NOTE: this routine should be rewritten in C
 phull_part_computewithr <- function(Q, p)
 {
-	n <- nrow(Q);
+	if (is.vector(Q))
+	{
+		warning("phull_part_computewithr: assumptions not met!");
+		return(matrix(c(Q,Q), ncol=2, byrow=T));
+	}
 
-	if (n < 2) stop("Internal error! phull_part_computewithr #<2");
+	n <- nrow(Q);
 
 	P <- Q[order(Q[,1]),];
 

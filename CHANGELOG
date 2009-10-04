@@ -1,0 +1,14 @@
+phull CHANGELOG
+
+This log lists only the most significant changes and bux fixes.
+
+
+
+0.2-1 (2009-10-04)
+  * BUGFIX: phull_part_computewithr(): vector may be input, but warn then
+  * BUGFIX: draw.phull(): some lines were missing that supposed to join phull_parts
+  * as.matrix.phull(): nres parameter added
+  * added insta/doc/phull-WZUR2009.pdf: a formal introduction to the topic
+
+0.1-1 (2009-10-02)
+  * Initial release.

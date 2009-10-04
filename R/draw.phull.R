@@ -17,7 +17,7 @@ fun.e <- function(x, r1, r2, p)
 # (sample the p-hull)
 phull_part_generate <- function (Q, p, npoints)
 {
-	n <- dim(Q)[1];
+	n <- nrow(Q);
 
 	ret <- NA;
 
@@ -39,6 +39,8 @@ phull_part_generate <- function (Q, p, npoints)
 			x <- seq(pt1[1], pt2[1], length=npoints);
 			y <- fun.e(x, rc1, rc2, p);
 
+			y[y<pt2[2]] <- pt2[2]; # BUGFIX: there were round-off errors for large p!
+
 			retpart <- cbind(x,y);
 		} else
 		{
@@ -54,7 +56,8 @@ phull_part_generate <- function (Q, p, npoints)
 }
 
 
-draw.phull <- function(x, fivecolors=FALSE, npoints=100, ...)
+
+discretize.phull <- function(x, npoints)
 {
 	Trans.bl2br <- matRotateOrt(   0)%*%matTranslate(-x$xrange[1], -x$yrange[1]);
 	Trans.br2tr <- matRotateOrt( -90)%*%matTranslate(-x$xrange[2], -x$yrange[1]);
@@ -76,20 +79,34 @@ draw.phull <- function(x, fivecolors=FALSE, npoints=100, ...)
 	tr2tl <- vecTransform(phull_part_generate(Q.tr2tl, x$p, npoints), TransInv.tr2tl);
 	tl2bl <- vecTransform(phull_part_generate(Q.tl2bl, x$p, npoints), TransInv.tl2bl);
 
+	return(list(bl2br=bl2br, br2tr=br2tr, tr2tl=tr2tl, tl2bl=tl2bl));
+}
+
+
+
+draw.phull <- function(x, fivecolors=FALSE, npoints=100, ...)
+{
+	d <- discretize.phull(x, npoints);
+
 	if (fivecolors)
 	{
-		lines(bl2br, col=2, ...);
-		lines(br2tr, col=3, ...);
-		lines(tr2tl, col=4, ...);
-		lines(tl2bl, col=5, ...);
+		lines(d$bl2br, col=2, ...);
+		lines(d$br2tr, col=3, ...);
+		lines(d$tr2tl, col=4, ...);
+		lines(d$tl2bl, col=5, ...);
 	}
 	else
 	{
-		lines(bl2br, ...);
-		lines(br2tr, ...);
-		lines(tr2tl, ...);
-		lines(tl2bl, ...);
+		lines(d$bl2br, ...);
+		lines(d$br2tr, ...);
+		lines(d$tr2tl, ...);
+		lines(d$tl2bl, ...);
 	}
+
+	lines(rbind(d$bl2br[nrow(d$bl2br),], d$br2tr[1,]), ...);
+	lines(rbind(d$br2tr[nrow(d$br2tr),], d$tr2tl[1,]), ...);
+	lines(rbind(d$tr2tl[nrow(d$tr2tl),], d$tl2bl[1,]), ...);
+	lines(rbind(d$tl2bl[nrow(d$tl2bl),], d$bl2br[1,]), ...);
 
 	# .....................
 }

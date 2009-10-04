@@ -1,5 +1,6 @@
-export(phull,draw)
+export(phull, draw)
 S3method(as.matrix, phull)
 S3method(lines, phull)
 S3method(points, phull)
 S3method(draw, phull)
+S3method(print, phull)

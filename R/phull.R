@@ -8,18 +8,6 @@ matTranslate <- function(x0, y0)
 }
 
 
-matRotate <- function(theta)
-{
-	cost <- cos(theta);
-	sint <- sin(theta)
-	return(matrix(nrow=3, ncol=3, byrow=T, c(
-		cost, -sint, 0,
-		sint, cost, 0,
-		0, 0, 1
-	)));
-}
-
-
 matRotateOrt <- function(thetaDeg)
 {
 	if (thetaDeg == 0)
@@ -66,9 +54,9 @@ phull <- function(x, y=NULL, p=1, p_correction=TRUE)
 {
 	if (is.null(y)) {
 		if (is.matrix(x)) {
-			if (dim(x)[2] != 2) stop("x must have 2 columns.");
+			if (ncol(x) != 2) stop("x must have 2 columns.");
 			y <- x[,2];
-			x <- y[,1];
+			x <- x[,1];
 		} else if (is.list(x)) {
 			if (length(x) != 2) stop("x must have 2 elements.");
 			y <- x[[2]];
